@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic-Tac-Toe</title>
+    <style>
+        table { margin: 50px auto; }
+        td { width: 100px; height: 100px; text-align: center; font-size: 48px; }
+    </style>
+</head>
+<body>
+    <table border="1">
+        <tr><td onclick="play(0)"></td><td onclick="play(1)"></td><td onclick="play(2)"></td></tr>
+        <tr><td onclick="play(3)"></td><td onclick="play(4)"></td><td onclick="play(5)"></td></tr>
+        <tr><td onclick="play(6)"></td><td onclick="play(7)"></td><td onclick="play(8)"></td></tr>
+    </table>
+
+    <script>
+        let board = ["", "", "", "", "", "", "", "", ""];
+        let currentPlayer = "X";
+        
+        function play(cell) {
+            if (board[cell] == "") {
+                board[cell] = currentPlayer;
+                document.querySelectorAll("td")[cell].innerText = currentPlayer;
+                if (checkWinner()) {
+                    alert(currentPlayer + " wins!");
+                    location.reload();
+                } else if (board.every(cell => cell != "")) {
+                    alert("It's a draw!");
+                    location.reload();
+                }
+                currentPlayer = currentPlayer == "X" ? "O" : "X";
+            }
+        }
+
+        function checkWinner() {
+            const winPatterns = [
+                [0, 1, 2], [3, 4, 5], [6, 7, 8], // Rows
+                [0, 3, 6], [1, 4, 7], [2, 5, 8], // Columns
+                [0, 4, 8], [2, 4, 6]             // Diagonals
+            ];
+            return winPatterns.some(pattern => 
+                pattern.every(index => board[index] == currentPlayer)
+            );
+        }
+    </script>
+</body>
+</html>
